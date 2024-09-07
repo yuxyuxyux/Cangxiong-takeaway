@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://E:/yux86/Documents/WeChat Files/wxid_m5mm7lej79jr22/FileStorage/File/2024-09/苍穹外卖.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/sky-server/src/main/resources/mapper/CategoryMapper.xml" dialect="GenericSQL" />
+  </component>
+</project>

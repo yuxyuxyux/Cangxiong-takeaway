@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.mapper.OrderMapper">
+
+    <select id="findPage" resultType="com.sky.entity.Orders">
+        select *
+        from orders
+        <where>
+            <if test="number != null">
+                and number = #{number}
+            </if>
+        </where>
+        <where>
+            <if test="phone != null">
+                and phone = #{phone}
+            </if>
+        </where>
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        <where>
+            <if test=" beginTime!=null and endTime!=null">
+                and order_time between #{beginTime} and #{endTime}
+            </if>
+        </where>
+        <where>
+            <if test="userId != null">
+                and userId = #{userId}
+            </if>
+        </where>
+    </select>
+    <select id="statistics" resultType="com.sky.vo.OrderStatisticsVO">
+        select case
+                   when status = 4 then 'confirmed'
+                   when status = 3 then 'deliveryInProgress'
+                   when status = 2 then 'toBeConfirmed'
+                   end as name,
+               count(*) as value
+        from orders
+        group by status;
+    </select>
+</mapper>

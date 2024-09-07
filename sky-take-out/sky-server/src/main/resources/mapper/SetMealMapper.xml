@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.mapper.SetMealMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into setmeal(name, price, category_id, description, status, image, create_time, update_time)
+        values (#{name}, #{price}, #{categoryId}, #{description}, #{status}, #{image}, now(), now())
+    </insert>
+    <update id="update">
+        update setmeal
+        <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="image != null">
+                image = #{image},
+            </if>
+            update_time = now()
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateStatus">
+        update setmeal
+        set status = #{status}
+        where id = #{id}
+    </update>
+    <delete id="delects">
+        delete from setmeal where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findPage" resultType="com.sky.vo.SetmealVO">
+        select setmeal.*,category.name as categoryName from setmeal left join category on setmeal.category_id =
+        category.id
+        <where>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="name != null">
+                and name like concat('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>
